@@ -28,28 +28,29 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(iot_security_lab C CXX ASM)
+project(tarefa_iot_security_lab_jorgewilker___carlosamaral C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(iot_security_lab iot_security_lab.c 
+add_executable(tarefa_iot_security_lab_jorgewilker___carlosamaral 
+    src/iot_security_lab.c
     src/mqtt_comm.c
     src/wifi_conn.c
     src/xor_cipher.c
 )
 
-pico_set_program_name(iot_security_lab "iot_security_lab")
-pico_set_program_version(iot_security_lab "0.1")
+pico_set_program_name(tarefa_iot_security_lab_jorgewilker___carlosamaral "tarefa_iot_security_lab_jorgewilker___carlosamaral")
+pico_set_program_version(tarefa_iot_security_lab_jorgewilker___carlosamaral "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(iot_security_lab 0)
-pico_enable_stdio_usb(iot_security_lab 1)
+pico_enable_stdio_uart(tarefa_iot_security_lab_jorgewilker___carlosamaral 0)
+pico_enable_stdio_usb(tarefa_iot_security_lab_jorgewilker___carlosamaral 1)
 
 # Add the standard library to the build
-target_link_libraries(iot_security_lab
+target_link_libraries(tarefa_iot_security_lab_jorgewilker___carlosamaral
         # Biblioteca padrão do Pico SDK, que fornece funções básicas para o RP2040 (GPIO, temporizadores, UART, etc.).
         pico_stdlib
         # Oferece suporte Wi-Fi (CYW43) com LwIP (pilha TCP/IP) em um modo thread-safe em segundo plano.
@@ -65,14 +66,15 @@ target_link_libraries(iot_security_lab
         )
 
 # Add the standard include files to the build
-target_include_directories(iot_security_lab PRIVATE
+target_include_directories(tarefa_iot_security_lab_jorgewilker___carlosamaral PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 # Add any user requested libraries
-target_link_libraries(iot_security_lab 
+target_link_libraries(tarefa_iot_security_lab_jorgewilker___carlosamaral 
         
         )
 
-pico_add_extra_outputs(iot_security_lab)
+pico_add_extra_outputs(tarefa_iot_security_lab_jorgewilker___carlosamaral)
 

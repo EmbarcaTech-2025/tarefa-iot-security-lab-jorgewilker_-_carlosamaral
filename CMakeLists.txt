@@ -40,6 +40,7 @@ add_executable(tarefa_iot_security_lab_jorgewilker___carlosamaral
     src/mqtt_comm.c
     src/wifi_conn.c
     src/xor_cipher.c
+    src/ssd1306_i2c.c
 )
 
 pico_set_program_name(tarefa_iot_security_lab_jorgewilker___carlosamaral "tarefa_iot_security_lab_jorgewilker___carlosamaral")
@@ -61,6 +62,8 @@ target_link_libraries(tarefa_iot_security_lab_jorgewilker___carlosamaral
         pico_lwip
         # O driver do chip Wi-Fi CYW43 (usado no Pico W).
         pico_cyw43_driver
+        # Biblioteca I2C do hardware para comunicação com o display OLED
+        hardware_i2c
         # pico_time
         # pico_unique_id
         )

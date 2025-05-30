@@ -20,12 +20,13 @@ Um servidor mosquitto, instalado em um computador na rede local, recebe um broke
 | Tópico | Descrição |
 |--------|-----------|
 | `escola/sala1/temperatura` | Mensagens JSON originais (legíveis) |
-| `escola/sala1/temperatura_criptografada` | Mensagens criptografadas com XOR |
+| `escola/sala1/temperatura_criptografada` | Timestamp criptografado em formato hexadecimal |
 
 ## 🔧 Componentes Usados
 
 ### Hardware
-- **Raspberry Pi Pico W** x2 (BitDogLab)
+- **Raspberry Pi Pico W** (2x) (BitDogLab)
+- **Display OLED SSD1306** 128x64 (I2C)
 - **Rede WiFi** para conectividade
 - **Computador** atuando como broker MQTT
 
@@ -38,6 +39,7 @@ Um servidor mosquitto, instalado em um computador na rede local, recebe um broke
   - `wifi_conn.c/h` - Gerenciamento de conexão WiFi
   - `mqtt_comm.c/h` - Comunicação MQTT
   - `xor_cipher.c/h` - Criptografia XOR
+  - `ssd1306_i2c.c/h` - Driver para display OLED SSD1306
 
 ## 💾 Pré-requisitos
 1. **Pico SDK** instalado e configurado
@@ -49,23 +51,25 @@ Um servidor mosquitto, instalado em um computador na rede local, recebe um broke
 
 ### Mensagens Originais (Legíveis)
 ```json
-{"valor":26.5,"ts":1678886400}
+{"valor":26.5,"ts":1735123456}
 ```
 
-### Mensagens Criptografadas
+### Mensagens Criptografadas (Timestamp em Hexadecimal)
 ```
-Bytes não legíveis resultantes da aplicação XOR com chave 42
+4A2E6B7D    ← Timestamp "1735123456" criptografado com XOR e convertido para hex
 ```
 
 ## Exibição esperada no OLED
-```json
------------------
-|
-|
-|
-|
-|
-
+```
+┌─────────────────────────────┐
+│   IOT SECURITY LAB          │
+│ WIFI: OK    MQTT: OK        │
+│─────────────────────────────│
+│ TEMP: 26.5 C                │
+│ TS: 1735123456    4A2E      │
+│ XOR ATIVO                   │
+│                             │
+└─────────────────────────────┘
 ```
 
 ## 📂 Arquivos e Estrutura
@@ -76,11 +80,13 @@ tarefa-iot-security-lab-jorgewilker_-_carlosamaral/
 │   ├── iot_security_lab.c      # Arquivo principal da aplicação
 │   ├── wifi_conn.c             # Implementação da conexão WiFi
 │   ├── mqtt_comm.c             # Comunicação MQTT com lwIP
-│   └── xor_cipher.c            # Algoritmo de criptografia XOR
+│   ├── xor_cipher.c            # Algoritmo de criptografia XOR
+│   └── ssd1306_i2c.c           # Driver para display OLED SSD1306
 ├── include/
 │   ├── wifi_conn.h             # Cabeçalho da conexão WiFi
 │   ├── mqtt_comm.h             # Cabeçalho da comunicação MQTT
 │   ├── xor_cipher.h            # Cabeçalho da criptografia XOR
+│   ├── ssd1306_i2c.h           # Cabeçalho do driver OLED
 │   └── lwipopts.h              # Configurações do lwIP
 ├── build/                      # Arquivos de compilação (gerado)
 ├── CMakeLists.txt              # Configuração de compilação
@@ -92,10 +98,11 @@ tarefa-iot-security-lab-jorgewilker_-_carlosamaral/
 
 ## 🔒 Mecanismos de Segurança Implementados
 
-1. **Confidencialidade:** Criptografia XOR dos dados JSON
+1. **Confidencialidade:** Criptografia XOR aplicada ao timestamp
 2. **Integridade Temporal:** Timestamp para ordenação de mensagens
 3. **Proteção contra Replay:** Validação de timestamp no subscriber
 4. **Autenticação:** Credenciais MQTT (usuário/senha)
+5. **Interface Visual:** Display OLED com status em tempo real e comparação visual dos dados
 
 ## 📋 Relatório de Implementações
 
@@ -130,10 +137,12 @@ tarefa-iot-security-lab-jorgewilker_-_carlosamaral/
 - Dados sem estrutura temporal
 
 **Depois (Implementação Atual):**
-- Publicação de JSON estruturado: `{"valor":26.5,"ts":1678886400}`
+- Publicação de JSON estruturado: `{"valor":26.5,"ts":1735123456}`
 - Proteção contra replay com timestamp
-- Criptografia XOR ativa aplicada ao JSON completo
-- Publicação dual (original + criptografado) para fins didáticos
+- Criptografia XOR aplicada especificamente ao timestamp numérico
+- Conversão para formato hexadecimal legível
+- Publicação dual (original + timestamp criptografado) para fins didáticos
+- Interface OLED completa com status de conectividade, dados e comparação visual
 - Estrutura de dados temporal para validação
 
 ## 🎓 Valor Didático

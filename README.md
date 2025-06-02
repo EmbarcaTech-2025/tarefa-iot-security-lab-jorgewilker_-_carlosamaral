@@ -27,7 +27,7 @@ Um servidor mosquitto, instalado em um computador na rede local, recebe um broke
 ### Hardware
 - **Raspberry Pi Pico W** (2x) (BitDogLab)
 - **Display OLED SSD1306** 128x64 (I2C)
-- **Rede WiFi** para conectividade
+- **Rede WiFi** para conectividade Wifi
 - **Computador** atuando como broker MQTT
 
 ### Software

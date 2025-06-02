@@ -5,7 +5,7 @@
 **Autores:** Jorge Wilker Mamede de Andrade e Carlos Amaral  
 **Curso:** Residência Tecnológica em Sistemas Embarcados  
 **Instituição:** EmbarcaTech - HBr  
-**Campinas, 25 de maio de 2025**
+**Campinas, 02 de junho de 2025**
 
 ---
 

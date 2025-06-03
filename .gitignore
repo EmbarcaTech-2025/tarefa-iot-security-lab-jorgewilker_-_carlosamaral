@@ -41,6 +41,9 @@ Makefile
 .DS_Store
 Thumbs.db
 
+# 🔍 Cache de Language Servers
+.cache/
+
 # 🐍 Python (se usado para scripts auxiliares)
 __pycache__/
 *.py[cod]

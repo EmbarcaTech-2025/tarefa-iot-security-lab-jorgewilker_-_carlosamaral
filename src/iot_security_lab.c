@@ -220,7 +220,7 @@ int main() {
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
     printf("Configurando MQTT...\n");
-    mqtt_setup("bitdog1", "mqtt.eclipseprojects.io", "aluno", "senha123");
+    mqtt_setup("", "mqtt.eclipseprojects.io", "aluno", "senha123");
 
     // Mensagem original a ser enviada (agora apenas como base para o valor)
     const char *mensagem = "26.5";
@@ -245,6 +245,10 @@ int main() {
         // Formata a mensagem como JSON com valor e timestamp no json_buffer
         sprintf(json_buffer, "{\"valor\":%.1f,\"ts\":%lu}", temperatura, current_timestamp);
 
+        // Criptografa a MENSAGEM COMPLETA (JSON)
+        xor_encrypt((uint8_t *)json_buffer, xor_encrypted_buffer, strlen(json_buffer), 42);
+
+        /*
         // Criptografa apenas o timestamp numérico para demonstração
         char ts_only[16];
         sprintf(ts_only, "%lu", current_timestamp);
@@ -267,6 +271,16 @@ int main() {
             
             // 2. Publica o TIMESTAMP CRIPTOGRAFADO em formato hexadecimal
             mqtt_comm_publish("escola/sala1/temperatura_criptografada", (uint8_t *)hex_encrypted, strlen(hex_encrypted));
+        }
+        */
+        
+        // Só publica se o MQTT estiver conectado
+        if (mqtt_connected) {
+            // 1. Publica a mensagem JSON ORIGINAL (descriptografada/legível) 
+            mqtt_comm_publish("escola/sala1/temperatura", (uint8_t *)json_buffer, strlen(json_buffer));
+            
+            // 2. Publica a MENSAGEM COMPLETA CRIPTOGRAFADA em formato binário
+            mqtt_comm_publish("escola/sala1/temperatura_criptografada", xor_encrypted_buffer, strlen(json_buffer));
         }
 
         // Aguarda 5 segundos antes da próxima publicação (comportamento original)

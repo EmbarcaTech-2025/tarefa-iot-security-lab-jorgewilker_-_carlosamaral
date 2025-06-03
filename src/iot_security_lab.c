@@ -215,12 +215,12 @@ int main() {
     // Conecta à rede WiFi
     // Parâmetros: Nome da rede (SSID) e senha
     printf("Conectando ao WiFi...\n");
-    bool wifi_connected = connect_to_wifi("CaftaS9", "hahehihohu");
+    bool wifi_connected = connect_to_wifi("QUALICOR", "Jor405169");
 
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
     printf("Configurando MQTT...\n");
-    mqtt_setup("bitdog1", "192.168.43.212", "aluno", "senha123");
+    mqtt_setup("bitdog1", "mqtt.eclipseprojects.io", "aluno", "senha123");
 
     // Mensagem original a ser enviada (agora apenas como base para o valor)
     const char *mensagem = "26.5";
